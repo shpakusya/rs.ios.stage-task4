@@ -64,7 +64,7 @@ class StationTests: XCTestCase {
 
         station.add(user: user1)
         station.add(user: user2)
-
+        
         // User1 звонит User2
         let callID_1 = station.execute(action: .start(from: user1, to: user2))
         XCTAssertEqual(station.calls().count, 1)
@@ -72,8 +72,9 @@ class StationTests: XCTestCase {
         XCTAssert(station.calls().first?.status == .calling)
         XCTAssertEqual(station.calls().first?.id, station.currentCall(user: user1)?.id)
         XCTAssertEqual(station.calls().first?.id, station.currentCall(user: user2)?.id)
-
+        
         // User2 отменяет вызов
+        
         let callID_2 = station.execute(action: .end(from: user2))
         XCTAssertEqual(callID_1, callID_2)
         XCTAssert(station.calls().first?.status == .ended(reason: .cancel))
@@ -161,7 +162,7 @@ class StationTests: XCTestCase {
         // User2 поднимает трубку
         _ = station.execute(action: .answer(from: user2))
         XCTAssert(station.calls().first?.status == .talk)
-
+        
         // User3 звонит User2
         let callID_2 = station.execute(action: .start(from: user3, to: user2))
         XCTAssertNotNil(callID_2)
